@@ -1,11 +1,23 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { CreateUserDto } from './dto/user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  async registerUser(createUserDto: CreateUserDto) {
+    try {
+      const user = new User();
+
+      user.id =
+
+      return
+    } catch (error) {
+      console.error(error);
+      throw new InternalServerErrorException(
+        'Erro interno do sistema, verificar o console',
+      );
+    }
   }
 
   findAll() {
