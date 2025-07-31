@@ -1,8 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { PipeTransform, BadRequestException } from '@nestjs/common';
-import { ZodSchema } from 'zod';
+import { ZodSchema, ZodError } from 'zod';
 
 export class ZodValidationPipe implements PipeTransform {
   constructor(private schema: ZodSchema) {}
@@ -11,9 +8,12 @@ export class ZodValidationPipe implements PipeTransform {
     try {
       return this.schema.parse(value);
     } catch (error) {
-      throw new BadRequestException(
-        `Validação falhou: ${error.errors.map((e) => e.message).join(', ')}`,
-      );
+      if (error instanceof ZodError) {
+        const messages = error.issues.map((e) => e.message).join(', ');
+        throw new BadRequestException(`Validação falhou: ${messages}`);
+      }
+
+      throw new BadRequestException('Erro inesperado na validação.');
     }
   }
 }

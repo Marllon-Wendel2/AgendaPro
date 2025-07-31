@@ -1,17 +1,34 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { CreateUserDto } from './dto/user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
+import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
 import { User } from './entities/user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { hashSync as bcryptHashSync } from 'bcryptjs';
 
 @Injectable()
 export class UserService {
+  constructor(
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+  ) {}
   async registerUser(createUserDto: CreateUserDto) {
     try {
-      const user = new User();
+      const existUser = await this.findUserByEmail(createUserDto.email);
 
-      user.id =
+      if (existUser)
+        throw new InternalServerErrorException('Email já registrado');
+      const newUser = new User();
 
-      return
+      newUser.nome = createUserDto.nome;
+      newUser.email = createUserDto.email;
+      newUser.senha = bcryptHashSync(createUserDto.senha, 10);
+
+      return await this.userRepository.save(newUser);
     } catch (error) {
       console.error(error);
       throw new InternalServerErrorException(
@@ -20,16 +37,67 @@ export class UserService {
     }
   }
 
-  findAll() {
-    return `This action returns all user`;
+  // findAll() {
+  //   return `This action returns all user`;
+  // }
+
+  async findUserByEmail(email: string) {
+    try {
+      const userFound = await this.userRepository.findOne({ where: { email } });
+
+      if (!userFound) {
+        throw new NotFoundException('Usuário não encontrado');
+      }
+
+      return {
+        id: userFound.id,
+        nome: userFound.nome,
+        email: userFound.email,
+      };
+    } catch (error) {
+      console.error(error);
+      throw new InternalServerErrorException(
+        'Erro interno ao buscar o usuário',
+      );
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findUser(id: string) {
+    try {
+      const userFound = await this.userRepository.findOne({ where: { id } });
+
+      if (!userFound) {
+        throw new NotFoundException('Usuário não encontrado');
+      }
+
+      return {
+        id: userFound.id,
+        nome: userFound.nome,
+        email: userFound.email,
+      };
+    } catch (error) {
+      console.error(error);
+      throw new InternalServerErrorException(
+        'Erro interno ao buscar o usuário',
+      );
+    }
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async updateUser(id: string, updateUserDto: UpdateUserDto) {
+    try {
+      const existUser = await this.findUser(id);
+
+      if (!existUser) throw new BadRequestException('Usúario não encontrado');
+
+      Object.assign(existUser, updateUserDto);
+
+      return await this.userRepository.save(existUser);
+    } catch (error) {
+      console.error(error);
+      throw new InternalServerErrorException(
+        'Erro interno ao buscar o usuário',
+      );
+    }
   }
 
   remove(id: number) {
