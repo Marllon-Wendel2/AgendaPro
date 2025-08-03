@@ -19,12 +19,19 @@ export class RolesGuard implements CanActivate {
       [context.getHandler(), context.getClass()],
     );
 
-    if (!requiredRoles) return true;
-
     const request = context.switchToHttp().getRequest<Request>();
     const user = request.user as JwtPayload;
 
-    if (!user || !requiredRoles.includes(user.type)) {
+    console.log('🛡️ RolesGuard => user:', user);
+    console.log('🛡️ RolesGuard => requiredRoles:', requiredRoles);
+
+    // Se não tiver payload no token, nega.
+    if (!user || !user.type) {
+      throw new ForbiddenException('Usuário não autenticado.');
+    }
+
+    // Se tiver roles exigidos, verifica se o type bate
+    if (requiredRoles && !requiredRoles.includes(user.type)) {
       throw new ForbiddenException('Acesso negado ao tipo de usuário.');
     }
 
