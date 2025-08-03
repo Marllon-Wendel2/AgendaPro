@@ -8,7 +8,7 @@ import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { hashSync as bcryptHashSync } from 'bcryptjs';
+import { hashSync as bcryptHashSync } from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -42,24 +42,17 @@ export class UserService {
   // }
 
   async findUserByEmail(email: string) {
-    try {
-      const userFound = await this.userRepository.findOne({ where: { email } });
+    const userFound = await this.userRepository.findOne({ where: { email } });
 
-      if (!userFound) {
-        throw new NotFoundException('Usuário não encontrado');
-      }
-
-      return {
-        id: userFound.id,
-        nome: userFound.nome,
-        email: userFound.email,
-      };
-    } catch (error) {
-      console.error(error);
-      throw new InternalServerErrorException(
-        'Erro interno ao buscar o usuário',
-      );
+    if (!userFound) {
+      return false;
     }
+
+    return {
+      id: userFound.id,
+      nome: userFound.nome,
+      email: userFound.email,
+    };
   }
 
   async findUser(id: string) {
