@@ -1,6 +1,6 @@
 import { config } from 'dotenv';
 import { DataSource, DataSourceOptions } from 'typeorm';
-import path from 'path';
+import * as path from 'path';
 
 config();
 

@@ -1,3 +1,4 @@
+import { UserType } from 'src/types/UserType.enum';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -13,4 +14,11 @@ export class User {
 
   @Column()
   senha: string;
+
+  @Column({
+    type: 'enum',
+    enum: UserType,
+    default: UserType.CLIENT,
+  })
+  type: UserType;
 }
