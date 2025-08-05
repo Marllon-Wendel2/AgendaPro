@@ -1,5 +1,6 @@
+import { Service } from 'src/services/entities/service.entity';
 import { UserType } from 'src/types/UserType.enum';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class User {
@@ -21,4 +22,7 @@ export class User {
     default: UserType.CLIENT,
   })
   type: UserType;
+
+  @OneToMany(() => Service, (service) => service.owner)
+  services: Service[];
 }
