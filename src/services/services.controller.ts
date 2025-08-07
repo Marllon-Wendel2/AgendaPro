@@ -8,14 +8,18 @@ import {
   Delete,
 } from '@nestjs/common';
 import { ServicesService } from './services.service';
-import { CreateServiceDto, UpdateServiceDto } from './dto/service.dto';
+import {
+  CreateServiceDto,
+  CreateServicePipe,
+  UpdateServiceDto,
+} from './dto/service.dto';
 
 @Controller('services')
 export class ServicesController {
   constructor(private readonly servicesService: ServicesService) {}
 
   @Post()
-  createService(@Body() createServiceDto: CreateServiceDto) {
+  createService(@Body(CreateServicePipe) createServiceDto: CreateServiceDto) {
     return this.servicesService.createService(createServiceDto);
   }
 
@@ -25,17 +29,20 @@ export class ServicesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.servicesService.findOne(+id);
+  findById(@Param('id') id: string) {
+    return this.servicesService.findById(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateServiceDto: UpdateServiceDto) {
-    return this.servicesService.update(+id, updateServiceDto);
+  updateService(
+    @Param('id') id: string,
+    @Body() updateServiceDto: UpdateServiceDto,
+  ) {
+    return this.servicesService.updateService(id, updateServiceDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.servicesService.remove(+id);
+  deleteService(@Param('id') id: string) {
+    return this.servicesService.deleteService(id);
   }
 }

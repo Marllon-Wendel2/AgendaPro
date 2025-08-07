@@ -21,10 +21,17 @@ export class ServicesService {
     try {
       const newService = new Service();
 
+      const owner = await this.userRepository.findOne({
+        where: { id: createServiceDto.ownerId },
+      });
+
+      if (!owner) throw new BadGatewayException('Usário não encontrado');
+
       newService.name = createServiceDto.name;
       newService.description = createServiceDto.description;
       newService.duration = createServiceDto.duration;
       newService.price = createServiceDto.price;
+      newService.owner = owner;
 
       return await this.serviceRepository.save(newService);
     } catch (error) {
@@ -57,15 +64,41 @@ export class ServicesService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} service`;
+  async findById(id: string) {
+    const service = await this.userRepository.findOne({ where: { id } });
+
+    if (!service) {
+      throw new BadGatewayException('Serviço não encontrado');
+    }
+
+    return service;
   }
 
-  update(id: number, updateServiceDto: UpdateServiceDto) {
-    return `This action updates a #${id} service`;
+  async updateService(id: string, updateServiceDto: UpdateServiceDto) {
+    try {
+      const service = await this.userRepository.findOne({ where: { id } });
+
+      if (!service) {
+        throw new BadGatewayException('Serviço não encontrado');
+      }
+
+      Object.assign(service, updateServiceDto);
+    } catch (error) {
+      console.error(error);
+      throw new InternalServerErrorException(
+        'Erro interno do sistema, verificar o console',
+      );
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} service`;
+  async deleteService(id: string) {
+    try {
+      return await this.serviceRepository.delete({ id });
+    } catch (error) {
+      console.error(error);
+      throw new InternalServerErrorException(
+        'Erro interno do sistema, verificar o console',
+      );
+    }
   }
 }

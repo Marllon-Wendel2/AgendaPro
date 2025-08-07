@@ -6,12 +6,15 @@ export const CreateServiceSchema = z.object({
   description: z.string(),
   duration: z.number(),
   price: z.number(),
+  ownerId: z.string().uuid(),
 });
 
 export type CreateServiceDto = z.infer<typeof CreateServiceSchema>;
 export const CreateServicePipe = new ZodValidationPipe(CreateServiceSchema);
 
-const updateServiceSchemas = CreateServiceSchema.partial();
+const updateServiceSchemas = CreateServiceSchema.omit({
+  ownerId: true,
+}).partial();
 
 export type UpdateServiceDto = z.infer<typeof updateServiceSchemas>;
 export const UpdateServicePipe = new ZodValidationPipe(updateServiceSchemas);
