@@ -1,8 +1,20 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const config = new DocumentBuilder()
+    .setTitle('AgendaPRo Document')
+    .setDescription('Documentaçao do Saas de agendamento')
+    .setVersion('0.5')
+    .build();
+
+  const documentSwagger = SwaggerModule.createDocument(app, config);
+
+  SwaggerModule.setup('api', app, documentSwagger);
+
   const port = process.env.PORT ?? 3000;
   await app.listen(port);
   console.log(`Ouvindo na porta: ${port}`);
