@@ -1,3 +1,4 @@
+import { Appointment } from 'src/modules/appointment/entities/appointment.entity';
 import { Service } from 'src/services/entities/service.entity';
 import { UserType } from 'src/types/UserType.enum';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
@@ -25,4 +26,7 @@ export class User {
 
   @OneToMany(() => Service, (service) => service.owner)
   services: Service[];
+
+  @OneToMany(() => Appointment, (appointment) => appointment.user)
+  appointments: Appointment[];
 }

@@ -1,6 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { User } from 'src/user/entities/user.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Appointment } from 'src/modules/appointment/entities/appointment.entity';
+import { User } from 'src/modules/user/entities/user.entity';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Service {
@@ -31,4 +38,7 @@ export class Service {
   @ApiProperty({ type: () => User })
   @ManyToOne(() => User, (user) => user.services, { onDelete: 'CASCADE' })
   owner: User;
+
+  @OneToMany(() => Appointment, (appointment) => appointment.service)
+  appointments: Appointment[];
 }
