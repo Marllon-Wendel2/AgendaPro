@@ -8,6 +8,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ServicesModule } from './services/services.module';
 import { AppointmentModule } from './modules/appointment/appointment.module';
+import { ClientModule } from './modules/client/client.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { AppointmentModule } from './modules/appointment/appointment.module';
     AuthModule,
     ServicesModule,
     AppointmentModule,
+    ClientModule,
   ],
   controllers: [AppController],
   providers: [AppService],
