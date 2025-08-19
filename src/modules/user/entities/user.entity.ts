@@ -1,5 +1,5 @@
 import { Appointment } from 'src/modules/appointment/entities/appointment.entity';
-import { Service } from 'src/services/entities/service.entity';
+import { Service } from 'src/modules/services/entities/service.entity';
 import { UserType } from 'src/types/UserType.enum';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 

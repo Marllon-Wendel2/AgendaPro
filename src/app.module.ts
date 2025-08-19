@@ -6,7 +6,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
-import { ServicesModule } from './services/services.module';
+import { ServicesModule } from './modules/services/services.module';
 import { AppointmentModule } from './modules/appointment/appointment.module';
 import { ClientModule } from './modules/client/client.module';
 

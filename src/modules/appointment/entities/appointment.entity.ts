@@ -1,6 +1,6 @@
 import { Client } from 'src/modules/client/entities/client.entity';
 import { User } from 'src/modules/user/entities/user.entity';
-import { Service } from 'src/services/entities/service.entity';
+import { Service } from 'src/modules/services/entities/service.entity';
 import {
   Column,
   CreateDateColumn,
