@@ -36,7 +36,7 @@ export class AppointmentService {
 
       const client = await this.clientRepository.findOne({
         where: {
-          id: createAppointmentDto.client,
+          id: +createAppointmentDto.client,
         },
       });
 

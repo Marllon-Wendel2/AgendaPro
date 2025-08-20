@@ -6,6 +6,7 @@ import {
   Param,
   Delete,
   Patch,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ClientService } from './client.service';
 import { CreateClientDto, UpdateClientDto } from './dto/client.dto';
@@ -20,7 +21,7 @@ export class ClientController {
   }
 
   @Get(':id')
-  findClientById(@Param() id: string) {
+  findClientById(@Param('id', ParseIntPipe) id: number) {
     return this.clientService.findClientById(id);
   }
 

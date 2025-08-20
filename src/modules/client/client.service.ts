@@ -32,7 +32,7 @@ export class ClientService {
     }
   }
 
-  async findClientById(id: string) {
+  async findClientById(id: number) {
     try {
       const client = await this.clientRepository.findOne({ where: { id } });
 
@@ -49,7 +49,7 @@ export class ClientService {
 
   async updateClient(id: string, updateClientDto: UpdateClientDto) {
     try {
-      const client = await this.findClientById(id);
+      const client = await this.findClientById(+id);
 
       Object.assign(client, updateClientDto);
 
