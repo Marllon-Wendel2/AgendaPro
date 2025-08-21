@@ -6,11 +6,15 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { AppointmentService } from './appointment.service';
 import { CreateAppointmentDto } from './dto/appointment.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guards';
+import { RolesGuard } from '../auth/guards/roles.guards';
 
 @Controller('appointment')
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class AppointmentController {
   constructor(private readonly appointmentService: AppointmentService) {}
 

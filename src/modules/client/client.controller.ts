@@ -7,11 +7,15 @@ import {
   Delete,
   Patch,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { ClientService } from './client.service';
 import { CreateClientDto, UpdateClientDto } from './dto/client.dto';
+import { RolesGuard } from '../auth/guards/roles.guards';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guards';
 
 @Controller('client')
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class ClientController {
   constructor(private readonly clientService: ClientService) {}
 

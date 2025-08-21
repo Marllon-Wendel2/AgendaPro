@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { ServicesService } from './services.service';
 import {
@@ -13,8 +14,11 @@ import {
   CreateServicePipe,
   UpdateServiceDto,
 } from './dto/service.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guards';
+import { RolesGuard } from '../auth/guards/roles.guards';
 
 @Controller('services')
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class ServicesController {
   constructor(private readonly servicesService: ServicesService) {}
 
