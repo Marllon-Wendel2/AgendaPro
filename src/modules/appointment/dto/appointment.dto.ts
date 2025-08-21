@@ -3,7 +3,7 @@ import z from 'zod';
 
 export const CreateAppointmentSchema = z.object({
   user: z.string(),
-  client: z.string(),
+  client: z.number(),
   service: z.string(),
   hour: z.string(),
 });

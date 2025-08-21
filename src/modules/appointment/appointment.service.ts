@@ -8,7 +8,7 @@ import { Appointment } from './entities/appointment.entity';
 import { Repository } from 'typeorm';
 import { User } from '../user/entities/user.entity';
 import { Service } from '../services/entities/service.entity';
-import dayjs from 'dayjs';
+import * as dayjs from 'dayjs';
 import { Client } from '../client/entities/client.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -23,6 +23,9 @@ export class AppointmentService {
 
     @InjectRepository(Client)
     private readonly clientRepository: Repository<Client>,
+
+    @InjectRepository(Appointment)
+    private readonly appointmentRepository: Repository<Appointment>,
   ) {}
   async createAppointment(createAppointmentDto: CreateAppointmentDto) {
     try {
@@ -57,25 +60,58 @@ export class AppointmentService {
       newAppointment.service = service;
       newAppointment.client = client;
       newAppointment.hour = dayjs(createAppointmentDto.hour).toDate();
+
+      await this.appointmentRepository.save(newAppointment);
     } catch (error) {
       console.error(error);
       throw new InternalServerErrorException('Erro interno do servidor');
     }
   }
 
-  findAll() {
-    return `This action returns all appointment`;
+  async findAllAppointmentByClient(clientId: number) {
+    try {
+      const appointments = await this.clientRepository.find({
+        where: {
+          id: clientId,
+        },
+        relations: ['appointment'],
+        order: {
+          appointment: {
+            hour: 'DESC', // Ordena os appointments por hora descendente
+          },
+        },
+      });
+
+      return appointments;
+    } catch (error) {
+      console.error(error);
+      throw new InternalServerErrorException('Erro interno do servidor');
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} appointment`;
-  }
+  // findOne(id: number) {
+  //   return `This action returns a #${id} appointment`;
+  // }
 
   // update(id: number, updateAppointmentDto: UpdateAppointmentDto) {
   //   return `This action updates a #${id} appointment`;
   // }
 
-  remove(id: number) {
-    return `This action removes a #${id} appointment`;
+  async deleteAppointment(id: string) {
+    try {
+      const result = await this.appointmentRepository.delete(id);
+
+      if (result.affected === 0) {
+        throw new NotFoundException(`Agendamento com ID ${id} não encontrado`);
+      }
+
+      return { message: 'Agendamento deletado com sucesso' };
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      console.error(error);
+      throw new InternalServerErrorException('Erro interno do servidor');
+    }
   }
 }

@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { AppointmentService } from './appointment.service';
 import { CreateAppointmentDto } from './dto/appointment.dto';
 
@@ -11,15 +19,17 @@ export class AppointmentController {
     return this.appointmentService.createAppointment(createAppointmentDto);
   }
 
-  @Get()
-  findAll() {
-    return this.appointmentService.findAll();
+  @Get(':clientId')
+  findAllAppointmentByClient(
+    @Param('clientId', ParseIntPipe) clientId: number,
+  ) {
+    return this.appointmentService.findAllAppointmentByClient(clientId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.appointmentService.findOne(+id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.appointmentService.findOne(+id);
+  // }
 
   // @Patch(':id')
   // update(
@@ -30,7 +40,7 @@ export class AppointmentController {
   // }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.appointmentService.remove(+id);
+  deleteAppointment(@Param('id') id: string) {
+    return this.appointmentService.deleteAppointment(id);
   }
 }
