@@ -3,6 +3,13 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
+  const ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    // 'http://127.0.0.1:3000',
+    // 'https://app.seudominio.com',
+    // 'https://admin.seudominio.com',
+  ];
+
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
@@ -16,6 +23,23 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, documentSwagger);
 
   const port = process.env.PORT ?? 3000;
+
+  app.enableCors({
+    origin: ALLOWED_ORIGINS,
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+      'X-Requested-With',
+      'Accept',
+      'X-CSRF-Token',
+    ],
+    exposedHeaders: ['Set-Cookie'],
+    maxAge: 86400,
+    optionsSuccessStatus: 204,
+  });
+
   await app.listen(port);
   console.log(`Ouvindo na porta: ${port}`);
 }

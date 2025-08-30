@@ -5,7 +5,6 @@ import {
   Body,
   Param,
   Delete,
-  ParseIntPipe,
   UseGuards,
 } from '@nestjs/common';
 import { AppointmentService } from './appointment.service';
@@ -24,10 +23,8 @@ export class AppointmentController {
   }
 
   @Get(':clientId')
-  findAllAppointmentByClient(
-    @Param('clientId', ParseIntPipe) clientId: number,
-  ) {
-    return this.appointmentService.findAllAppointmentByClient(clientId);
+  findAllAppointmentByUser(@Param('userId') userId: string) {
+    return this.appointmentService.findAllAppointmentByUser(userId);
   }
 
   // @Get(':id')

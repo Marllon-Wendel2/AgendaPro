@@ -68,21 +68,22 @@ export class AppointmentService {
     }
   }
 
-  async findAllAppointmentByClient(clientId: number) {
+  async findAllAppointmentByUser(userId: string) {
     try {
-      const appointments = await this.clientRepository.find({
-        where: {
-          id: clientId,
-        },
-        relations: ['appointment'],
-        order: {
-          appointment: {
-            hour: 'DESC', // Ordena os appointments por hora descendente
-          },
-        },
+      const user = await this.userRevository.findOne({
+        where: { id: userId },
+        relations: [
+          'appointments',
+          'appointments.client',
+          'appointments.service',
+        ],
       });
 
-      return appointments;
+      if (!user) {
+        throw new NotFoundException('Usuário não encontrado');
+      }
+
+      return user.appointments; // já retorna os agendamentos com client + service
     } catch (error) {
       console.error(error);
       throw new InternalServerErrorException('Erro interno do servidor');

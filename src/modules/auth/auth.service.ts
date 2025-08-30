@@ -14,7 +14,10 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async authUser(authDto: AuthDto): Promise<string> {
+  async authUser(authDto: AuthDto): Promise<{
+    token: string;
+    user: { nome: string; email: string; type: string };
+  }> {
     const { email, senha } = authDto;
 
     const user = await this.userRepository.findOne({ where: { email } });
@@ -36,7 +39,13 @@ export class AuthService {
         type: user.type,
       });
 
-      return token;
+      const userWithoutPassword = {
+        nome: user.nome,
+        email: user.email,
+        type: user.type,
+      };
+
+      return { token, user: userWithoutPassword };
     } catch (err) {
       if (err instanceof Error) {
         throw new UnauthorizedException(err.message);
