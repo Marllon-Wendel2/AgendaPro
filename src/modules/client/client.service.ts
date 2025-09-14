@@ -65,9 +65,17 @@ export class ClientService {
   async findUsersClient(id: string) {
     try {
       const result = await this.clientRepository.find({
-        where: {
+        where: { user: { id } },
+        relations: { appointment: true, user: true },
+        select: {
+          id: true,
+          name: true,
+          phone: true,
+          plan: true,
+          appointment: true,
           user: {
-            id,
+            id: true,
+            nome: true, // só o nome do user
           },
         },
       });
