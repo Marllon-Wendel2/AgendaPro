@@ -5,6 +5,7 @@ export const CreateClientSchema = z.object({
   name: z.string(),
   phone: z.string(),
   plan: z.string(),
+  userId: z.string(),
 });
 
 export type CreateClientDto = z.infer<typeof CreateClientSchema>;

@@ -24,6 +24,11 @@ export class ClientController {
     return this.clientService.create(createClientDto);
   }
 
+  @Get('user/:id')
+  findUsersClient(@Param('id') id: string) {
+    return this.clientService.findUsersClient(id);
+  }
+
   @Get(':id')
   findClientById(@Param('id', ParseIntPipe) id: number) {
     return this.clientService.findClientById(id);

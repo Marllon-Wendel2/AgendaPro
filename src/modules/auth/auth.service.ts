@@ -43,6 +43,7 @@ export class AuthService {
         nome: user.nome,
         email: user.email,
         type: user.type,
+        id: user.id,
       };
 
       return { token, user: userWithoutPassword };

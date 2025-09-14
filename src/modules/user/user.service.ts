@@ -37,10 +37,6 @@ export class UserService {
     }
   }
 
-  // findAll() {
-  //   return `This action returns all user`;
-  // }
-
   async findUserByEmail(email: string) {
     const userFound = await this.userRepository.findOne({ where: { email } });
 
