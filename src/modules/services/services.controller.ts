@@ -27,7 +27,7 @@ export class ServicesController {
     return this.servicesService.createService(createServiceDto);
   }
 
-  @Get()
+  @Get('user/:userId')
   findServicesByUser(@Param('userId') userId: string) {
     return this.servicesService.findServicesByUser(userId);
   }
