@@ -54,6 +54,12 @@ export class ServicesService {
         where: {
           owner: { id: userId },
         },
+        select: {
+          owner: {
+            id: true,
+            nome: true,
+          },
+        },
         relations: ['owner'],
       });
     } catch (error) {
