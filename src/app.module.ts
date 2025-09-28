@@ -9,6 +9,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ServicesModule } from './modules/services/services.module';
 import { AppointmentModule } from './modules/appointment/appointment.module';
 import { ClientModule } from './modules/client/client.module';
+import { MailModule } from './modules/mail/mail.module';
 
 @Module({
   imports: [
@@ -27,7 +28,7 @@ import { ClientModule } from './modules/client/client.module';
     }),
     JwtModule.registerAsync({
       global: true,
-      imports: [ConfigModule],
+      imports: [ConfigModule.forRoot()],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         secret: configService.get<string>('SECRET_KEY'),
@@ -39,6 +40,7 @@ import { ClientModule } from './modules/client/client.module';
     ServicesModule,
     AppointmentModule,
     ClientModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],

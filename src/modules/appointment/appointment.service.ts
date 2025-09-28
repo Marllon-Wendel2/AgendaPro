@@ -8,7 +8,7 @@ import { Appointment } from './entities/appointment.entity';
 import { Repository } from 'typeorm';
 import { User } from '../user/entities/user.entity';
 import { Service } from '../services/entities/service.entity';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import { Client } from '../client/entities/client.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 
