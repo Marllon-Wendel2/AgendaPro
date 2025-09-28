@@ -10,6 +10,7 @@ import { ServicesModule } from './modules/services/services.module';
 import { AppointmentModule } from './modules/appointment/appointment.module';
 import { ClientModule } from './modules/client/client.module';
 import { MailModule } from './modules/mail/mail.module';
+import { NotificationModule } from './modules/notification/notification.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { MailModule } from './modules/mail/mail.module';
     AppointmentModule,
     ClientModule,
     MailModule,
+    NotificationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
