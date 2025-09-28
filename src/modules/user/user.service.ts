@@ -37,6 +37,26 @@ export class UserService {
     }
   }
 
+  async findActiveUser() {
+    try {
+      const userIds = await this.userRepository.find({
+        where: {
+          active: true,
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      return userIds;
+    } catch (error) {
+      console.error(error);
+      throw new InternalServerErrorException(
+        'Erro interno do sistema, verificar o console',
+      );
+    }
+  }
+
   async findUserByEmail(email: string) {
     const userFound = await this.userRepository.findOne({ where: { email } });
 

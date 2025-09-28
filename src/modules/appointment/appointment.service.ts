@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { CreateAppointmentDto } from './dto/appointment.dto';
 import { Appointment } from './entities/appointment.entity';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { User } from '../user/entities/user.entity';
 import { Service } from '../services/entities/service.entity';
 import dayjs from 'dayjs';
@@ -97,6 +97,25 @@ export class AppointmentService {
   // update(id: number, updateAppointmentDto: UpdateAppointmentDto) {
   //   return `This action updates a #${id} appointment`;
   // }
+
+  async findAppointmentInNextDay(userId: string) {
+    const startNextDay = dayjs().add(1, 'day').startOf('day').toDate();
+
+    const endNextDay = dayjs().add(1, 'day').endOf('day').toDate();
+
+    const nextAppointments = await this.appointmentRepository.find({
+      where: {
+        user: {
+          id: userId,
+        },
+        hour: Between(startNextDay, endNextDay),
+      },
+      relations: ['client', 'service'],
+      order: { hour: 'ASC' },
+    });
+
+    return nextAppointments;
+  }
 
   async deleteAppointment(id: string) {
     try {

@@ -1,4 +1,4 @@
-import { Appointment } from 'src/modules/appointment/entities/appointment.entity';
+import { Appointment } from '../../appointment/entities/appointment.entity';
 import { Client } from 'src/modules/client/entities/client.entity';
 import { Service } from 'src/modules/services/entities/service.entity';
 import { UserType } from 'src/types/UserType.enum';
@@ -24,6 +24,9 @@ export class User {
     default: UserType.CLIENT,
   })
   type: UserType;
+
+  @Column({ default: true })
+  active: boolean;
 
   @OneToMany(() => Service, (service) => service.owner)
   services: Service[];

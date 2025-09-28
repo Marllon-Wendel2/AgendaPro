@@ -11,6 +11,7 @@ import { AppointmentModule } from './modules/appointment/appointment.module';
 import { ClientModule } from './modules/client/client.module';
 import { MailModule } from './modules/mail/mail.module';
 import { NotificationModule } from './modules/notification/notification.module';
+import { BullModule } from '@nestjs/bull';
 
 @Module({
   imports: [
@@ -34,6 +35,17 @@ import { NotificationModule } from './modules/notification/notification.module';
       useFactory: (configService: ConfigService) => ({
         secret: configService.get<string>('SECRET_KEY'),
         signOptions: { expiresIn: '1h' },
+      }),
+    }),
+    BullModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        redis: {
+          host: 'localhost',
+          port: configService.get<number>('REDIS_PORT'),
+          password: configService.get<string>('REDIS_PASS'),
+        },
       }),
     }),
     UserModule,

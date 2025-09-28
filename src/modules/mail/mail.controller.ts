@@ -8,6 +8,6 @@ export class MailController {
 
   @Post()
   sendEMail(@Body() createMailDto: CreateMailDto) {
-    return this.mailService.sendEMail(createMailDto);
+    return this.mailService.sendNow(createMailDto);
   }
 }
