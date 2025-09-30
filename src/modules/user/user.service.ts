@@ -37,9 +37,9 @@ export class UserService {
     }
   }
 
-  async findActiveUser() {
+  async findActiveUser(): Promise<string[]> {
     try {
-      const userIds = await this.userRepository.find({
+      const users = await this.userRepository.find({
         where: {
           active: true,
         },
@@ -48,7 +48,7 @@ export class UserService {
         },
       });
 
-      return userIds;
+      return users.map((user) => user.id);
     } catch (error) {
       console.error(error);
       throw new InternalServerErrorException(

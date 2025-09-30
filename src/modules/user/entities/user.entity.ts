@@ -25,6 +25,9 @@ export class User {
   })
   type: UserType;
 
+  @Column({ nullable: true })
+  logoUrl: string;
+
   @Column({ default: true })
   active: boolean;
 

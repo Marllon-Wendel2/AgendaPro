@@ -12,6 +12,8 @@ import { ClientModule } from './modules/client/client.module';
 import { MailModule } from './modules/mail/mail.module';
 import { NotificationModule } from './modules/notification/notification.module';
 import { BullModule } from '@nestjs/bull';
+import { ScheduleModule } from '@nestjs/schedule';
+import { UploadModule } from './modules/upload/upload.module';
 
 @Module({
   imports: [
@@ -30,7 +32,7 @@ import { BullModule } from '@nestjs/bull';
     }),
     JwtModule.registerAsync({
       global: true,
-      imports: [ConfigModule.forRoot()],
+      imports: [ConfigModule.forRoot(), ScheduleModule.forRoot()],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         secret: configService.get<string>('SECRET_KEY'),
@@ -55,6 +57,7 @@ import { BullModule } from '@nestjs/bull';
     ClientModule,
     MailModule,
     NotificationModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [AppService],

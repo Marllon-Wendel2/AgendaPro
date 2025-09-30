@@ -15,5 +15,6 @@ import { ClientModule } from '../client/client.module';
     TypeOrmModule.forFeature([Appointment, Service, User, Client]),
     ClientModule,
   ],
+  exports: [AppointmentService],
 })
 export class AppointmentModule {}

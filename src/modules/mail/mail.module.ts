@@ -11,5 +11,6 @@ import { BullModule } from '@nestjs/bull';
   ],
   controllers: [MailController],
   providers: [MailService],
+  exports: [MailService],
 })
 export class MailModule {}
