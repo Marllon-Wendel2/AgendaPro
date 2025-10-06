@@ -15,6 +15,13 @@ export class UploadService {
   async uploadLogo(userId: string, file: Express.Multer.File) {
     const url = await this.cloudinaryService.uploadImage(file);
 
-    return url;
+    await this.userRepository.update(
+      {
+        id: userId,
+      },
+      { logoUrl: url },
+    );
+
+    return { message: 'Logo atualizado com sucesso!', logoUrl: url };
   }
 }

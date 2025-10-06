@@ -20,7 +20,6 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  @Roles(UserType.ADMIN)
   registerUser(@Body(CreateUserPipe) createUserDto: CreateUserDto) {
     return this.userService.registerUser(createUserDto);
   }

@@ -22,9 +22,6 @@ export class RolesGuard implements CanActivate {
     const request = context.switchToHttp().getRequest<Request>();
     const user = request.user as JwtPayload;
 
-    console.log('🛡️ RolesGuard => user:', user);
-    console.log('🛡️ RolesGuard => requiredRoles:', requiredRoles);
-
     // Se não tiver payload no token, nega.
     if (!user || !user.type) {
       throw new ForbiddenException('Usuário não autenticado.');
