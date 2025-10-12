@@ -44,6 +44,8 @@ export class AuthService {
         email: user.email,
         type: user.type,
         id: user.id,
+        logoUrl: user.logoUrl,
+        colors: user.colors,
       };
 
       return { token, user: userWithoutPassword };

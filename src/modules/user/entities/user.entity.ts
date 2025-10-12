@@ -39,4 +39,12 @@ export class User {
 
   @OneToMany(() => Client, (client) => client.user)
   clients: Client[];
+
+  @Column({ type: 'jsonb', nullable: true })
+  colors: {
+    primary: string;
+    secondary: string;
+    highlight: string;
+    text: string;
+  };
 }

@@ -83,6 +83,8 @@ export class UserService {
         id: userFound.id,
         nome: userFound.nome,
         email: userFound.email,
+        logoUrl: userFound.logoUrl,
+        colors: userFound.colors,
       };
     } catch (error) {
       console.error(error);
