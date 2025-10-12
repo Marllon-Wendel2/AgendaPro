@@ -47,7 +47,10 @@ import { UploadModule } from './modules/upload/upload.module';
 
         if (redisUrl) {
           return {
-            redis: redisUrl, // ✅ Aqui pode ser string
+            redis: {
+              url: redisUrl,
+              tls: {},
+            },
           };
         }
         return {
