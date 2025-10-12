@@ -42,13 +42,22 @@ import { UploadModule } from './modules/upload/upload.module';
     BullModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        redis: {
-          host: 'localhost',
-          port: configService.get<number>('REDIS_PORT'),
-          password: configService.get<string>('REDIS_PASS'),
-        },
-      }),
+      useFactory: (configService: ConfigService) => {
+        const redisUrl = configService.get<string>('REDIS_URL');
+
+        if (redisUrl) {
+          return {
+            redis: redisUrl, // ✅ Aqui pode ser string
+          };
+        }
+        return {
+          redis: {
+            host: 'localhost',
+            port: configService.get<number>('REDIS_PORT') || 6379,
+            password: configService.get<string>('REDIS_PASS'),
+          },
+        };
+      },
     }),
     UserModule,
     AuthModule,
