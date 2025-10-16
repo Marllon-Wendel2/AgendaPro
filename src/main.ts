@@ -12,15 +12,16 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
 
-  const config = new DocumentBuilder()
-    .setTitle('AgendaPRo Document')
-    .setDescription('Documentaçao do Saas de agendamento')
-    .setVersion('0.5')
-    .build();
+  if (process.env.NODE_ENV !== 'production') {
+    const config = new DocumentBuilder()
+      .setTitle('AgendaPro API')
+      .setDescription('Documentação da API')
+      .setVersion('0.5')
+      .build();
 
-  const documentSwagger = SwaggerModule.createDocument(app, config);
-
-  SwaggerModule.setup('api', app, documentSwagger);
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api', app, document);
+  }
 
   const port = process.env.PORT ?? 3000;
 
