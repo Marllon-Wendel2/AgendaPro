@@ -41,7 +41,7 @@ async function bootstrap() {
     optionsSuccessStatus: 204,
   });
 
-  await app.listen(port, '0.0.0.0');
+  await app.listen(port);
   console.log(`Ouvindo na porta: ${port}`);
 }
 bootstrap();
