@@ -1,29 +1,30 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { ExpressAdapter } from '@nestjs/platform-express';
-import express, { Handler } from 'express';
-
-const server = express();
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
-
   const ALLOWED_ORIGINS = [
     'http://localhost:3000',
-    'https://agenda-pro.vercel.app',
+    // 'http://127.0.0.1:3000',
+    // 'https://app.seudominio.com',
+    // 'https://admin.seudominio.com',
   ];
+
+  const app = await NestFactory.create(AppModule);
 
   if (process.env.NODE_ENV !== 'production') {
     const config = new DocumentBuilder()
-      .setTitle('AgendaPro API')
-      .setDescription('Documentação da API')
+      .setTitle('AgendaPRo Document')
+      .setDescription('Documentaçao do Saas de agendamento')
       .setVersion('0.5')
       .build();
 
-    const document = SwaggerModule.createDocument(app, config);
-    SwaggerModule.setup('api', app, document);
+    const documentSwagger = SwaggerModule.createDocument(app, config);
+
+    SwaggerModule.setup('api', app, documentSwagger);
   }
+
+  const port = process.env.PORT ?? 3000;
 
   app.enableCors({
     origin: ALLOWED_ORIGINS,
@@ -41,9 +42,7 @@ async function bootstrap() {
     optionsSuccessStatus: 204,
   });
 
-  await app.init();
+  await app.listen(port);
+  console.log(`Ouvindo na porta: ${port}`);
 }
-
 bootstrap();
-
-export const handler: Handler = server;
