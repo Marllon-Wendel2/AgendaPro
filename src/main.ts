@@ -1,7 +1,7 @@
+import 'module-alias/register';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import 'module-alias/register';
 
 async function bootstrap() {
   const ALLOWED_ORIGINS = [
