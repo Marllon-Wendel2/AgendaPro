@@ -1,4 +1,4 @@
-import { ZodValidationPipe } from 'src/common/zod-validation-pipe';
+import { ZodValidationPipe } from '../../../common/zod-validation-pipe';
 import z from 'zod';
 
 const AuthSchemas = z.object({
