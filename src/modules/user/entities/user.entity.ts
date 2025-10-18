@@ -1,6 +1,6 @@
 import { Appointment } from '../../appointment/entities/appointment.entity';
-import { Client } from 'src/modules/client/entities/client.entity';
-import { Service } from 'src/modules/services/entities/service.entity';
+import { Client } from '../../client/entities/client.entity';
+import { Service } from '../../services/entities/service.entity';
 import { UserType } from '../../../types/UserType.enum';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 

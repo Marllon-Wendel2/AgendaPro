@@ -3,7 +3,7 @@ import { UploadService } from './upload.service';
 import { UploadController } from './upload.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../user/entities/user.entity';
-import { CloudinaryService } from 'src/common/cloudinary/cloudinary.service';
+import { CloudinaryService } from '../../common/cloudinary/cloudinary.service';
 
 @Module({
   controllers: [UploadController],

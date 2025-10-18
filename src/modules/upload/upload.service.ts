@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CloudinaryService } from 'src/common/cloudinary/cloudinary.service';
-import { User } from 'src/modules/user/entities/user.entity';
+import { CloudinaryService } from '../../common/cloudinary/cloudinary.service';
+import { User } from '../../modules/user/entities/user.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
