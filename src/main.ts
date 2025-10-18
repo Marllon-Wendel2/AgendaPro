@@ -5,26 +5,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Request, Response, NextFunction } from 'express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-
-  // Middleware para CORS
-  app.use((req: Request, res: Response, next: NextFunction) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header(
-      'Access-Control-Allow-Methods',
-      'GET, POST, PUT, PATCH, DELETE, OPTIONS',
-    );
-    res.header(
-      'Access-Control-Allow-Headers',
-      'Content-Type, Authorization, Accept',
-    );
-
-    if (req.method === 'OPTIONS') {
-      res.status(200).send();
-      return;
-    }
-    next();
-  });
+  const app = await NestFactory.create(AppModule, { cors: true });
 
   // Swagger
   if (process.env.NODE_ENV !== 'production') {
