@@ -5,15 +5,13 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // 🔐 Configuração de CORS — mais robusta
   app.enableCors({
     origin: [
-      'http://localhost:3000', // Front local
-      'http://localhost:3001', // Front Next.js
-      'http://127.0.0.1:3000',
-      'http://127.0.0.1:3001',
+      'http://localhost:3000', // teu front local
+      'https://agenda-pro-topaz.vercel.app', // domínio do front no Vercel
     ],
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
   });
 
