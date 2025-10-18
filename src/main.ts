@@ -2,10 +2,12 @@ import 'module-alias/register';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { Request, Response, NextFunction } from 'express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true });
+  const app = await NestFactory.create(AppModule);
+
+  // CORS BÁSICO E FUNCIONAL
+  app.enableCors();
 
   // Swagger
   if (process.env.NODE_ENV !== 'production') {
